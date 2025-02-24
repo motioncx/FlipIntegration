@@ -1,0 +1,6 @@
+@FlipIntegration_HostAddress = http://localhost:5261
+
+POST {{FlipIntegration_HostAddress}}/test/
+Accept: application/json
+
+###
