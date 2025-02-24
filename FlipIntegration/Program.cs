@@ -24,7 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/test", (HttpContext httpContext) =>
+app.MapPost("/test", async (HttpContext httpContext) =>
 {
     // if (IsValidTwilioRequest(httpContext) == false)
     //     return Results.StatusCode((int) HttpStatusCode.Forbidden);
@@ -42,12 +42,14 @@ app.MapPost("/test", (HttpContext httpContext) =>
     try
     {
         // Make a call using the SIP Trunk 
-        var call = CallResource.Create(
+        var call = await CallResource.CreateAsync(
             url: new Uri("http://demo.twilio.com/docs/voice.xml"),
             to: new PhoneNumber("7403432076"),
             from: new PhoneNumber("(218) 274-0340"),
             client: twilioRestClient
         );
+
+        await Task.Delay(100000);
     }
     catch (Exception e)
     {
