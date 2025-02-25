@@ -39,13 +39,19 @@ app.MapPost("/test", async (HttpContext httpContext) =>
         httpClient: new Twilio.Http.SystemNetHttpClient(new HttpClient())
     );
 
+    var configuration = httpContext.RequestServices
+        .GetService<IConfiguration>();
+
+    var from = configuration.GetSection("TwilioMotion:From").Value;
+    var to = configuration.GetSection("TwilioMotion:To").Value;
+
     try
     {
         // Make a call using the SIP Trunk 
         var call = await CallResource.CreateAsync(
             url: new Uri("http://demo.twilio.com/docs/voice.xml"),
-            to: new PhoneNumber("7403432076"),
-            from: new PhoneNumber("(218) 274-0340"),
+            to: new PhoneNumber(to),
+            from: new PhoneNumber(from),
             client: twilioRestClient
         );
 
